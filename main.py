@@ -37,7 +37,8 @@ class Main:
 
     def valuesToOutputText(self):
         arrangedArr = self.arr[self.index:] + self.arr[:self.index]
-        text = ', '.join(str(x) for x in arrangedArr if isinstance(x, int) )
+        text = '  '.join(str(x) for x in arrangedArr if isinstance(x, int) )
+        text = 'Ready to pickup: ' + text
         self.outputText.set(text)
 
     # init
