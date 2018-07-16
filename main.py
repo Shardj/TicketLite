@@ -8,6 +8,7 @@ class Main:
     fontSize = 44
     fontFamily = "Arial Black"
     fontWeight = "bold"
+    fullscreen = False
 
     # events
     def newNumber(self, num):
@@ -82,6 +83,10 @@ class Main:
         window.geometry("400x400")
         window.title("Output")
         window.configure(background="black")
+        def toggleFullscreen(event):
+            self.fullscreen = False if self.fullscreen else True
+            window.attributes('-fullscreen', self.fullscreen)
+        window.bind("<Escape>", toggleFullscreen)
 
         label = tkinter.Label(window, textvariable=self.outputText)
         label.configure(foreground="white", background="black", font=(self.fontFamily, self.fontSize, self.fontWeight))
