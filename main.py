@@ -5,6 +5,9 @@ class Main:
     arr = ['','','','','','','','','','']
     index = 0
     outputText = None
+    fontSize = 44
+    fontFamily = "Arial Black"
+    fontWeight = "bold"
 
     # events
     def newNumber(self, num):
@@ -81,8 +84,9 @@ class Main:
         window.configure(background="black")
 
         label = tkinter.Label(window, textvariable=self.outputText)
-        label.configure(foreground="white", background="black")
-        label.pack(side=tkinter.TOP, anchor="w")
+        label.configure(foreground="white", background="black", font=(self.fontFamily, self.fontSize, self.fontWeight))
+        label.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
+        label.pack()
 
         window.mainloop()
 
