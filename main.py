@@ -78,7 +78,12 @@ class Main:
         window = tkinter.Toplevel()
         window.geometry("400x400")
         window.title("Output")
-        tkinter.Label(window, textvariable=self.outputText).pack(side=tkinter.TOP, anchor="w")
+        window.configure(background="black")
+
+        label = tkinter.Label(window, textvariable=self.outputText)
+        label.configure(foreground="white", background="black")
+        label.pack(side=tkinter.TOP, anchor="w")
+
         window.mainloop()
 
 # call
