@@ -37,8 +37,7 @@ class Main:
 
     def valuesToOutputText(self):
         arrangedArr = self.arr[self.index:] + self.arr[:self.index]
-        text = '  '.join(str(x) for x in arrangedArr if isinstance(x, int) )
-        text = 'Ready to pickup: ' + text
+        text = '\n'.join(str(x) for x in arrangedArr if isinstance(x, int) )
         self.outputText.set(text)
 
     # init
@@ -88,12 +87,16 @@ class Main:
             self.fullscreen = False if self.fullscreen else True
             window.attributes('-fullscreen', self.fullscreen)
         window.bind("<Escape>", toggleFullscreen)
+        msg = tkinter.Label(window, text="Ready to pickup: ")
+        msg.configure(foreground="white", background="black", font=(self.fontFamily, self.fontSize, self.fontWeight))
+        msg.grid(sticky=tkinter.NE)
 
         label = tkinter.Label(window, textvariable=self.outputText)
         label.configure(foreground="white", background="black", font=(self.fontFamily, self.fontSize, self.fontWeight))
-        label.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
-        label.pack()
+        label.grid(row=0, column=1, sticky=tkinter.NW)
 
+        window.grid_columnconfigure(0, weight=1)
+        window.grid_columnconfigure(1, weight=1)
         window.mainloop()
 
 # call
