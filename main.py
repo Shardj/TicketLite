@@ -8,14 +8,13 @@ class Main:
 
     # events
     def newNumber(self, num):
+        self.ent.delete(0, 'end')
         try:
             self.arr[self.index] = int(num)
         except ValueError:
             if num == ",": # client wants comma to work as an alias for delete button
                 self.removeNumber()
-                return
-            else:
-                self.arr[self.index] = ""
+            return
 
         self.index = self.index+1 if self.index < 9 else 0
         self.writeCurrent()
@@ -61,10 +60,10 @@ class Main:
         self.valuesToOutputText()
 
         tkinter.Label(window, text="Enter next number:").pack(side=tkinter.TOP, anchor="w")
-        ent = tkinter.Entry(window)
-        ent.bind("<Return>", (lambda event: self.newNumber(ent.get())))
-        ent.pack(side=tkinter.TOP, anchor="w")
-        btn = tkinter.Button(window,text="Submit", command=(lambda: self.newNumber(ent.get())))
+        self.ent = tkinter.Entry(window)
+        self.ent.bind("<Return>", (lambda event: self.newNumber(self.ent.get())))
+        self.ent.pack(side=tkinter.TOP, anchor="w")
+        btn = tkinter.Button(window,text="Submit", command=(lambda: self.newNumber(self.ent.get())))
         btn.pack(side=tkinter.TOP, anchor="w")
 
         rmBtn = tkinter.Button(window,text="Remove Last Number", command=(lambda: self.removeNumber()))
