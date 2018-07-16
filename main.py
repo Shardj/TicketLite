@@ -25,10 +25,12 @@ class Main:
         self.arr[self.index] = ''
         self.writeCurrent()
 
-    def writeCurrent(self):
+    def writeCurrent(self, justFile = False):
         wr = open(self.file, 'w')
         wr.write(json.dumps({"arr": self.arr, "index": self.index}))
-        self.valuesToOutputText()
+        if not justFile:
+            self.valuesToOutputText()
+
 
     def valuesToOutputText(self):
         arrangedArr = self.arr[self.index:] + self.arr[:self.index]
@@ -43,7 +45,7 @@ class Main:
                 self.arr = data["arr"]
                 self.index = data["index"]
         else:
-            self.writeCurrent()
+            self.writeCurrent(True)
 
         self.startGui()
 
