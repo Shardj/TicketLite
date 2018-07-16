@@ -93,10 +93,11 @@ class Main:
 
         label = tkinter.Label(window, textvariable=self.outputText)
         label.configure(foreground="white", background="black", font=(self.fontFamily, self.fontSize, self.fontWeight))
-        label.grid(row=0, column=1, sticky=tkinter.NW)
+        label.grid(row=0, column=1, sticky=tkinter.N)
 
-        window.grid_columnconfigure(0, weight=1)
+        window.grid_columnconfigure(0, weight=1, uniform='match')
         window.grid_columnconfigure(1, weight=1)
+        window.grid_columnconfigure(2, weight=1, uniform='match')
         window.mainloop()
 
 # call
