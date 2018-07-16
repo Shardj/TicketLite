@@ -11,7 +11,11 @@ class Main:
         try:
             self.arr[self.index] = int(num)
         except ValueError:
-            self.arr[self.index] = ""
+            if num == ",": # client wants comma to work as an alias for delete button
+                self.removeNumber()
+                return
+            else:
+                self.arr[self.index] = ""
 
         self.index = self.index+1 if self.index < 9 else 0
         self.writeCurrent()
