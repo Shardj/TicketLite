@@ -33,8 +33,7 @@ class Main:
     def writeCurrent(self):
         wr = open(self.file, 'w')
         wr.write(json.dumps({"arr": self.arr, "index": self.index}))
-        if not justFile:
-            self.valuesToOutputText()
+        self.valuesToOutputText()
 
 
     def valuesToOutputText(self):
