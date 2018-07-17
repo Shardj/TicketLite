@@ -10,10 +10,10 @@ class Main:
     fontSize = 44
     fontFamily = "Arial Black"
     fontWeight = "bold"
-    fullscreen = False
+    fullscreen = False # escape key will toggle
     bg = 'black'
     fg = 'white'
-    alt = "#f5be0c"
+    alt = "#f5be0c" # main text colour and flash colour
 
     # events
     def newNumber(self, num):
@@ -53,7 +53,7 @@ class Main:
 
         for label in self.labels:
             label.configure(foreground=self.alt)
-        self.labels[0].after(250, resetColour) # doesn't matter which tk object after is called on
+        self.labels[0].after(500, resetColour) # doesn't matter which tk object after is called on
 
 
     # init
