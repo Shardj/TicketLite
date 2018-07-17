@@ -63,11 +63,6 @@ class Main:
         window.geometry("200x200")
         window.title("Input")
 
-        # init output text for use later
-        self.outputText1 = tkinter.StringVar()
-        self.outputText2 = tkinter.StringVar()
-        self.valuesToOutputText()
-
         tkinter.Label(window, text="Enter next number:").pack(side=tkinter.TOP, anchor="w")
         self.ent = tkinter.Entry(window)
         self.ent.bind("<Return>", (lambda event: self.newNumber(self.ent.get())))
@@ -84,6 +79,11 @@ class Main:
         window.mainloop()
 
     def startOutputGui(self):
+        # init output text for use later
+        self.outputText1 = tkinter.StringVar()
+        self.outputText2 = tkinter.StringVar()
+        self.valuesToOutputText()
+        
         window = tkinter.Toplevel()
         window.geometry("600x800")
         window.title("Output")
