@@ -1,5 +1,8 @@
 # TicketLite
-A highly lightweight system for inputting a customers order number on one interface which then displays on a second display
+A highly lightweight system for inputting a customers order number on one interface which then displays on a second display. Perfect for informing customers that their take-away is ready.
+
+![Windowed example.](https://raw.githubusercontent.com/Shardj/TicketLite/master/example.gif)
+
 
 You will require:
 
