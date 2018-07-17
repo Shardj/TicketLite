@@ -47,7 +47,6 @@ class Main:
         while len(stringArr) < self.length:
             stringArr.append("") # so removed values are cleared by replacing them with empty string
         for index, text in enumerate(stringArr):
-            print(index)
             self.outputText[index].set(text)
 
         if flash:
