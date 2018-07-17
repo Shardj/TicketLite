@@ -11,6 +11,9 @@ class Main:
     fontFamily = "Arial Black"
     fontWeight = "bold"
     fullscreen = False
+    bg = 'black'
+    fg = 'white'
+    alt = "#f5be0c"
 
     # events
     def newNumber(self, num):
@@ -44,6 +47,14 @@ class Main:
         text2 = '\n'.join(stringArr[half:])
         self.outputText1.set(text1)
         self.outputText2.set(text2)
+        def resetColour():
+            for label in self.labels:
+                label.configure(foreground=self.fg)
+
+        for label in self.labels:
+            label.configure(foreground=self.alt)
+        self.labels[0].after(250, resetColour) # doesn't matter which tk object after is called on
+
 
     # init
     def __init__(self):
@@ -79,28 +90,30 @@ class Main:
         window.mainloop()
 
     def startOutputGui(self):
-        # init output text for use later
-        self.outputText1 = tkinter.StringVar()
-        self.outputText2 = tkinter.StringVar()
-        self.valuesToOutputText()
-        
         window = tkinter.Toplevel()
         window.geometry("600x800")
         window.title("Output")
-        window.configure(background="black")
+        window.configure(background=self.bg)
         def toggleFullscreen(event):
             self.fullscreen = False if self.fullscreen else True
             window.attributes('-fullscreen', self.fullscreen)
         window.bind("<Escape>", toggleFullscreen)
         msg = tkinter.Label(window, text="Ready to pickup: ")
-        msg.configure(foreground="#f5be0c", background="black", font=(self.fontFamily, self.fontSize, self.fontWeight))
+        msg.configure(foreground=self.alt, background=self.bg, font=(self.fontFamily, self.fontSize, self.fontWeight))
         msg.grid(columnspan=2, sticky=tkinter.N)
 
-        labels = [tkinter.Label(window, textvariable=self.outputText1), tkinter.Label(window, textvariable=self.outputText2)]
-        for label in labels:
-            label.configure(foreground="white", background="black", font=(self.fontFamily, self.fontSize, self.fontWeight))
-        labels[0].grid(row=1, column=0, sticky=tkinter.NE, padx = 75)
-        labels[1].grid(row=1, column=1, sticky=tkinter.NW, padx = 75)
+        # set output text variables
+        self.outputText1 = tkinter.StringVar()
+        self.outputText2 = tkinter.StringVar()
+
+        self.labels = [tkinter.Label(window, textvariable=self.outputText1), tkinter.Label(window, textvariable=self.outputText2)]
+        for label in self.labels:
+            label.configure(foreground=self.fg, background=self.bg, font=(self.fontFamily, self.fontSize, self.fontWeight))
+        self.labels[0].grid(row=1, column=0, sticky=tkinter.NE, padx = 75)
+        self.labels[1].grid(row=1, column=1, sticky=tkinter.NW, padx = 75)
+
+        # create and write output text to screen
+        self.valuesToOutputText()
 
         window.grid_columnconfigure(0, weight=1, uniform='match')
         window.grid_columnconfigure(1, weight=1, uniform='match')
