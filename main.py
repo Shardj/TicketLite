@@ -5,8 +5,8 @@ class Main:
     arr = []
     length = 20
     index = 0
-    outputText1 = None
-    outputText2 = None
+    outputText = []
+    labels = []
     fontSize = 44
     fontFamily = "Arial Black"
     fontWeight = "bold"
@@ -26,34 +26,34 @@ class Main:
             return
 
         self.index = self.index+1 if self.index < (self.length -1) else 0
-        self.writeCurrent()
+        self.writeCurrent(True)
 
     def removeNumber(self):
         self.index = self.index-1 if self.index > 0 else (self.length -1)
         self.arr[self.index] = ''
         self.writeCurrent()
 
-    def writeCurrent(self):
+    def writeCurrent(self, flash = False):
         wr = open(self.file, 'w')
         wr.write(json.dumps({"arr": self.arr, "index": self.index}))
-        self.valuesToOutputText()
+        if self.labels != []:
+            self.valuesToOutputText(flash)
 
 
-    def valuesToOutputText(self):
+    def valuesToOutputText(self, flash = False):
         arrangedArr = self.arr[self.index:] + self.arr[:self.index]
         stringArr = [str(x) for x in arrangedArr if isinstance(x, int)]
-        half = int(self.length/2)
-        text1 = '\n'.join(stringArr[:half])
-        text2 = '\n'.join(stringArr[half:])
-        self.outputText1.set(text1)
-        self.outputText2.set(text2)
-        def resetColour():
-            for label in self.labels:
-                label.configure(foreground=self.fg)
+        finalIndex = len(stringArr) - 1 # if we don't have a full array this finds the index of the last used cell so we know which index to flash
+        while len(stringArr) < self.length:
+            stringArr.append("") # so removed values are cleared by replacing them with empty string
+        for index, text in enumerate(stringArr):
+            print(index)
+            self.outputText[index].set(text)
 
-        for label in self.labels:
-            label.configure(foreground=self.alt)
-        self.labels[0].after(500, resetColour) # doesn't matter which tk object after is called on
+        if flash:
+            self.labels[finalIndex].configure(foreground=self.alt)
+            # reset colours after delay, doesn't matter which tk object after is called on
+            self.labels[finalIndex].after(500, lambda: self.labels[finalIndex].configure(foreground=self.fg))
 
 
     # init
@@ -103,14 +103,18 @@ class Main:
         msg.grid(columnspan=2, sticky=tkinter.N)
 
         # set output text variables
-        self.outputText1 = tkinter.StringVar()
-        self.outputText2 = tkinter.StringVar()
-
-        self.labels = [tkinter.Label(window, textvariable=self.outputText1), tkinter.Label(window, textvariable=self.outputText2)]
-        for label in self.labels:
+        for i in range(0,self.length):
+            self.outputText.append(tkinter.StringVar())
+        self.labels = [tkinter.Label(window, textvariable=self.outputText[x]) for x in range(0,self.length)]
+        half = int(self.length/2)
+        for idx, label in enumerate(self.labels):
             label.configure(foreground=self.fg, background=self.bg, font=(self.fontFamily, self.fontSize, self.fontWeight))
-        self.labels[0].grid(row=1, column=0, sticky=tkinter.NE, padx = 75)
-        self.labels[1].grid(row=1, column=1, sticky=tkinter.NW, padx = 75)
+            row = 1 + idx
+            if idx < half:
+                label.grid(row=row, column=0, sticky=tkinter.NE, padx = 75)
+            else:
+                row -= half
+                label.grid(row=row, column=1, sticky=tkinter.NW, padx = 75)
 
         # create and write output text to screen
         self.valuesToOutputText()
