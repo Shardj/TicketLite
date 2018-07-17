@@ -7,6 +7,7 @@ class Main:
     index = 0
     outputText = []
     labels = []
+    windowOpen = False
     fontSize = 44
     fontFamily = "Arial Black"
     fontWeight = "bold"
@@ -36,7 +37,7 @@ class Main:
     def writeCurrent(self, flash = False):
         wr = open(self.file, 'w')
         wr.write(json.dumps({"arr": self.arr, "index": self.index}))
-        if self.labels != []:
+        if self.windowOpen:
             self.valuesToOutputText(flash)
 
 
@@ -89,10 +90,17 @@ class Main:
         window.mainloop()
 
     def startOutputGui(self):
+        self.windowOpen = True
         window = tkinter.Toplevel()
         window.geometry("600x800")
         window.title("Output")
         window.configure(background=self.bg)
+
+        def windowClosed():
+            self.windowOpen = False
+            window.destroy()
+        window.protocol("WM_DELETE_WINDOW", windowClosed)
+
         def toggleFullscreen(event):
             self.fullscreen = False if self.fullscreen else True
             window.attributes('-fullscreen', self.fullscreen)
