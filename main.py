@@ -11,7 +11,8 @@ class Main:
     fontSize = 44
     fontFamily = "Arial Black"
     fontWeight = "bold"
-    fullscreen = False # escape key will toggle
+    outputFullscreen = False # escape key will toggle
+    inputFullscreen = False # escape key will toggle
     bg = 'black'
     fg = 'white'
     alt = "#f5be0c" # main text colour and flash colour
@@ -79,6 +80,11 @@ class Main:
         window.geometry("200x200")
         window.title("Input")
 
+        def toggleFullscreen(event):
+            self.inputFullscreen = False if self.inputFullscreen else True
+            window.attributes('-fullscreen', self.inputFullscreen)
+        window.bind("<Escape>", toggleFullscreen)
+
         tkinter.Label(window, text="Enter next number:").pack(side=tkinter.TOP, anchor="w")
         self.ent = tkinter.Entry(window)
         self.ent.bind("<Return>", (lambda event: self.newNumber(self.ent.get())))
@@ -107,8 +113,8 @@ class Main:
         window.protocol("WM_DELETE_WINDOW", windowClosed)
 
         def toggleFullscreen(event):
-            self.fullscreen = False if self.fullscreen else True
-            window.attributes('-fullscreen', self.fullscreen)
+            self.outputFullscreen = False if self.outputFullscreen else True
+            window.attributes('-fullscreen', self.outputFullscreen)
         window.bind("<Escape>", toggleFullscreen)
         msg = tkinter.Label(window, text="Ready to pickup: ")
         msg.configure(foreground=self.alt, background=self.bg, font=(self.fontFamily, self.fontSize, self.fontWeight))
