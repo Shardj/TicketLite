@@ -94,7 +94,7 @@ class Main:
         window = tkinter.Toplevel()
         window.geometry("600x800")
         window.title("Output")
-        window.configure(background=self.bg)
+        window.configure(background=self.bg, cursor="none")
 
         def windowClosed():
             self.windowOpen = False
