@@ -15,6 +15,7 @@ class Main:
     bg = 'black'
     fg = 'white'
     alt = "#f5be0c" # main text colour and flash colour
+    flashes = [{'length': 500, 'delay': 0}, {'length': 500, 'delay': 500}, {'length': 500, 'delay': 500}]
 
     # events
     def newNumber(self, num):
@@ -51,9 +52,13 @@ class Main:
             self.outputText[index].set(text)
 
         if flash:
-            self.labels[finalIndex].configure(foreground=self.alt)
-            # reset colours after delay, doesn't matter which tk object after is called on
-            self.labels[finalIndex].after(500, lambda: self.labels[finalIndex].configure(foreground=self.fg))
+            cumlative = 0
+            for flashConf in self.flashes:
+                # doesn't matter which tk object after is called on
+                cumlative += int(flashConf["delay"])
+                self.labels[finalIndex].after(cumlative, lambda: self.labels[finalIndex].configure(foreground=self.alt))
+                cumlative += int(flashConf["length"])
+                self.labels[finalIndex].after(cumlative, lambda: self.labels[finalIndex].configure(foreground=self.fg))
 
 
     # init
