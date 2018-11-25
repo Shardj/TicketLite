@@ -1,22 +1,30 @@
 import tkinter, json, os
 
 class Main:
+    # --------------- Feel free to change the below options ---------------
+    length = 20 # how many numbers can the output window display
+    pickupText = "Ready to pickup: " # text at the top of the output window
+    fontSize = 44 # font size of output window
+    fontFamily = "Arial Black" # font family of output window
+    fontWeight = "bold" # font weight of output window
+    bg = 'black' # background colour of output window
+    fg = 'white' # number colour of output window
+    alt = "#f5be0c" # main text colour and flash colour of output window
+    flashes = [{'length': 500, 'delay': 0}, {'length': 500, 'delay': 500}, {'length': 500, 'delay': 500}] # flash configuration
+    inputWindowSize = "300x300" # size of the input window when it opens
+    inputFontSize = 16 # size of the text on the input window
+    inputFontFamily = "Arial" # font family for input window
+    inputFontWeight = "normal" # font weight for input window
+    # --------------- Feel free to change the above options ---------------
+    
     file = './data.json'
     arr = []
-    length = 20
     index = 0
     outputText = []
     labels = []
     windowOpen = False
-    fontSize = 44
-    fontFamily = "Arial Black"
-    fontWeight = "bold"
     outputFullscreen = False # escape key will toggle
     inputFullscreen = False # escape key will toggle
-    bg = 'black'
-    fg = 'white'
-    alt = "#f5be0c" # main text colour and flash colour
-    flashes = [{'length': 500, 'delay': 0}, {'length': 500, 'delay': 500}, {'length': 500, 'delay': 500}]
 
     # events
     def newNumber(self, num):
@@ -77,7 +85,7 @@ class Main:
     def startGui(self):
         # init window
         window = tkinter.Tk()
-        window.geometry("200x200")
+        window.geometry(self.inputWindowSize)
         window.title("Input")
 
         def toggleFullscreen(event):
@@ -85,17 +93,17 @@ class Main:
             window.attributes('-fullscreen', self.inputFullscreen)
         window.bind("<Escape>", toggleFullscreen)
 
-        tkinter.Label(window, text="Enter next number:").pack(side=tkinter.TOP, anchor="w")
-        self.ent = tkinter.Entry(window)
+        tkinter.Label(window, text="Enter next number:", font=(self.inputFontFamily, self.inputFontSize, self.inputFontWeight)).pack(side=tkinter.TOP, anchor="w")
+        self.ent = tkinter.Entry(window, font=(self.inputFontFamily, self.inputFontSize, self.inputFontWeight))
         self.ent.bind("<Return>", (lambda event: self.newNumber(self.ent.get())))
         self.ent.pack(side=tkinter.TOP, anchor="w")
-        btn = tkinter.Button(window,text="Submit", command=(lambda: self.newNumber(self.ent.get())))
+        btn = tkinter.Button(window,text="Submit", font=(self.inputFontFamily, self.inputFontSize, self.inputFontWeight), command=(lambda: self.newNumber(self.ent.get())))
         btn.pack(side=tkinter.TOP, anchor="w")
 
-        rmBtn = tkinter.Button(window,text="Remove Last Number", command=(lambda: self.removeNumber()))
+        rmBtn = tkinter.Button(window,text="Remove Last Number", font=(self.inputFontFamily, self.inputFontSize, self.inputFontWeight), command=(lambda: self.removeNumber()))
         rmBtn.pack(side=tkinter.TOP, anchor="w")
 
-        outputBtn = tkinter.Button(window, text="Open output window", command=(lambda: self.startOutputGui()))
+        outputBtn = tkinter.Button(window, text="Open output window", font=(self.inputFontFamily, self.inputFontSize, self.inputFontWeight), command=(lambda: self.startOutputGui()))
         outputBtn.pack(side=tkinter.TOP, anchor="w")
 
         window.mainloop()
