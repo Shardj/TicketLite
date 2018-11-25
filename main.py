@@ -21,6 +21,7 @@ class Main:
     arr = []
     index = 0
     outputText = []
+    inputText = None
     labels = []
     windowOpen = False
     outputFullscreen = False # escape key will toggle
@@ -59,6 +60,8 @@ class Main:
             stringArr.append("") # so removed values are cleared by replacing them with empty string
         for index, text in enumerate(stringArr):
             self.outputText[index].set(text)
+            
+        self.valuesToInputText()
 
         if flash:
             cumlative = 0
@@ -69,6 +72,8 @@ class Main:
                 cumlative += int(flashConf["length"])
                 self.labels[finalIndex].after(cumlative, lambda: self.labels[finalIndex].configure(foreground=self.fg))
 
+    def valuesToInputText(self):
+        self.inputText.set(' '.join(str(x) for x in self.arr))
 
     # init
     def __init__(self):
@@ -105,6 +110,11 @@ class Main:
 
         outputBtn = tkinter.Button(window, text="Open output window", font=(self.inputFontFamily, self.inputFontSize, self.inputFontWeight), command=(lambda: self.startOutputGui()))
         outputBtn.pack(side=tkinter.TOP, anchor="w")
+        
+        self.inputText = tkinter.StringVar()
+        self.valuesToInputText();
+        outputList = tkinter.Label(window, font=(self.inputFontFamily, self.inputFontSize, self.inputFontWeight), textvariable=self.inputText)
+        outputList.pack(side=tkinter.TOP, anchor="w")
 
         window.mainloop()
 
